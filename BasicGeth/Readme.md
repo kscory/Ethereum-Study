@@ -21,22 +21,30 @@
       - 아래의 경우 db, eth, net, web3 를 지정함
     - `--networkid [네트워크id]` : 네트워크 identifier 설정
     - `console` : 콘솔모드 실행
-- 더 많은 명령어는 [Command Line Options](https://github.com/ethereum/go-ethereum/wiki/Command-Line-Options) 참고
+  - 더 많은 명령어는 [Command Line Options](https://github.com/ethereum/go-ethereum/wiki/Command-Line-Options) 참고
+  - 뒤는 이제 이 console 을 실행한 후 진행!
 
   > 예시
 
   ```
   geth --datadir . --identity "Kyung" --rpc --rpcport "8080" --rpccorsdomain "*" --port "30303" --nodiscover --rpcapi "db,eth,net,web3" --networkid 1999 console
   ```
+
+  ### 2. attach 이용
+  - node 에서 geth 가 실행되고 있을 경우
+
 ---
 
-## 채굴하기
+## 채굴
   ### 1. 마이닝 계정 지정
-  - `miner.setEtherbase(주소)` 명령어 입력
-  - `miner.setEtherbase(personal.listAccounts[index])` 를 이용하여 주소를 가져올 수 있다.
+  - 마이닝 후 보상받을 계정 지정
+  - `miner.setEtherbase(주소)` : 보상받을 계정 지정
+    - `miner.setEtherbase(personal.listAccounts[index])` 를 이용하여 주소를 가져올 수 있다.
+  - `eth.coinbase` : 보상받을 계정을 확인
 
   ```
   > miner.setEtherbase(personal.listAccounts[0])
+  > eth.coinbase
   ```
 
   ![](https://github.com/Lee-KyungSeok/Ethereum-Study/blob/master/BasicGeth/picture/mining.png)
@@ -55,18 +63,49 @@
   ### 3. 마이닝 중지
   - `miner.stop()` 명령어 입력
 
-  ![](https://github.com/Lee-KyungSeok/Ethereum-Study/blob/master/BasicGeth/picture/mining3.png)
-
   ```
   > miner.stop()
   ```
 
-  ### 4. DAG 파일 다운
+  ![](https://github.com/Lee-KyungSeok/Ethereum-Study/blob/master/BasicGeth/picture/mining3.png)
+
+  ### 4. 생성된 블록 수 조회
+  - `eth.blockNumber` 명령어 입력
+
+  ```
+  > eth.blockNumber
+  ```
+
+  ![](https://github.com/Lee-KyungSeok/Ethereum-Study/blob/master/BasicGeth/picture/mining4.png)
+
+  ### 5. 현재 채굴중인지 확인
+  - `eth.mining` 명령어 입력
+
+  ```
+  eth.mining
+  ```
+
+  ![](https://github.com/Lee-KyungSeok/Ethereum-Study/blob/master/BasicGeth/picture/mining6.png)
+
+
+  ### <참고>. DAG 파일 다운
   - 마이닝을 처음 하게 되면 이전에 DAG 를 생성하게 된다.
   - DAG 파일 이란?
     - 노드에 일관성이 유지되도록 도와주는 1GB 크기의 데이터셋
     - POW 알고리즘의 solution time을 표준화하는 방법
 
-  ![](https://github.com/Lee-KyungSeok/Ethereum-Study/blob/master/BasicGeth/picture/mining4.png)
+  ![](https://github.com/Lee-KyungSeok/Ethereum-Study/blob/master/BasicGeth/picture/mining5.png)
 
 ---
+
+## 계좌 관리
+  ### 1. 새로운 계좌 생성
+  - `personal.`
+
+  ### 2.
+
+---
+
+## ㅇㅇ
+  ### 4. eth.
+  - `eth.getBalace(주소)`
