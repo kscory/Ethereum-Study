@@ -22,7 +22,7 @@
   geth --datadir [경로] account new
   ```
 
-  ![](https://github.com/Lee-KyungSeok/Etherum-Study/blob/master/privatesetting/picture/setting1.png)
+  ![](https://github.com/Lee-KyungSeok/Ethereum-Study/blob/master/privatesetting/picture/setting1.png)
 
   > 계좌 확인
 
@@ -30,7 +30,7 @@
   geth --datadir [경로] account list
   ```
 
-  ![](https://github.com/Lee-KyungSeok/Etherum-Study/blob/master/privatesetting/picture/setting2.png)
+  ![](https://github.com/Lee-KyungSeok/Ethereum-Study/blob/master/privatesetting/picture/setting2.png)
 
   ### 2. genesis 블록을 위한 json 파일 생성
   - account 를 만든 디렉토리에 `json` 파일을 생성한 후 아래 내용을 넣어준다.
@@ -69,4 +69,4 @@
   geth --datadir [주소명] init "[주소명]\genesis.json"
   ```
 
-  ![](https://github.com/Lee-KyungSeok/Etherum-Study/blob/master/privatesetting/picture/setting3.png)
+  ![](https://github.com/Lee-KyungSeok/Ethereum-Study/blob/master/privatesetting/picture/setting3.png)
