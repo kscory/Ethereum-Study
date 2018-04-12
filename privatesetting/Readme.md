@@ -43,13 +43,14 @@
     - 여기서 `genesis.json` 으로 파일명을 만들었다.
     - 아래 내용 중 `[주소]` 에 위에서 account를 생성했을 때 나온 주소를 넣어준다. (`0x` 를 반드시 붙혀 16진수라는 것을 표시해야 함에 주의)
   - 버전마다 계속 바뀌니 참고 할 것
+  - `chainId` 의 경우 "0" 으로 초기 세팅 되어 있지만 그럴 경우 송금시에 오류 발생 가능성 있으니 바꿔줄 것
 
   > genesis.json
 
   ```json
   {
   	"config": {
-  	"chainId": 0,
+  	"chainId": 20,
   	"homesteadBlock": 0,
   	"eip155Block": 0,
   	"eip158Block": 0
