@@ -7,21 +7,21 @@
 ---
 ## geth 실행
   ### 1. geth console 실행
-  - 아래 명령어를 입력
-    - `--datadir [경로]` : 실행할 경로 지정
-    - `--identity [이름]` : 내 프라이빗 노드의 아이덴티티
-    - `--rpc` : RPC 인터페이스 사용 가능하도록 설정
-    - `--rpcport [포트번호]` : RPC 포트 지정
-    - `--rpccorsdomain [클라이언트]` : 접속 가능한 RPC 클라이언트 지정
-      - 이 때 `*` 로 지정하면 모두 허용
-      - 왠만하면 URL 을 지정해 주는 것이 보안상 좋다.
-    - `--port "30303"` : 네트워크 Listening Port 지정 (30303 으로 지정된듯..)
-    - `--nodiscover` : 같은 제네시스 블록과 네트워크 ID에 있는 블록에 연결 방지
-      - 이를 하지 않는 다면 P2P 노드 연결을 위해 계속해서 ping 이 발생
-    - `--rpcapi [API들]` : RPC에 의해 접근을 허락할 API 지정
-      - 아래의 경우 db, eth, net, web3 를 지정함
-    - `--networkid [네트워크id]` : 네트워크 identifier 설정
-    - `console` : 콘솔모드 실행
+  - `--datadir [경로]` : 실행할 경로 지정
+  - `--identity [이름]` : 내 프라이빗 노드의 아이덴티티
+  - `--rpc` : RPC 인터페이스 사용 가능하도록 설정
+  - `--rpcport [포트번호]` : RPC 포트 지정
+  - `--rpccorsdomain [클라이언트]` : 접속 가능한 RPC 클라이언트 지정
+    - 이 때 `*` 로 지정하면 모두 허용
+    - 왠만하면 URL 을 지정해 주는 것이 보안상 좋다.
+  - `--port "30303"` : 네트워크 Listening Port 지정 (30303 으로 지정된듯..)
+  - `--nodiscover` : 같은 제네시스 블록과 네트워크 ID에 있는 블록에 연결 방지
+    - 이를 하지 않는 다면 P2P 노드 연결을 위해 계속해서 ping 이 발생
+  - `--rpcapi [API들]` : RPC에 의해 접근을 허락할 API 지정
+    - 아래의 경우 db, eth, net, web3 를 지정함
+    - db,eth,net,web3,personal,admin,miner,debug,txpool 등 이용 가능
+  - `--networkid [네트워크id]` : 네트워크 identifier 설정
+  - `console` : 콘솔모드 실행
   - 더 많은 명령어는 [Command Line Options](https://github.com/ethereum/go-ethereum/wiki/Command-Line-Options) 참고
   - 뒤는 이제 이 console 을 실행한 후 진행!
 
@@ -167,5 +167,52 @@
 ---
 
 ## 송금하기
-  ### 4. eth.
-  - `eth.getBalace(주소)`
+  ### 0. 송금하기 전에!
+  - 이더를 보유하고 있어야 하므로 채굴을 조금 실행해본다.
+  - 송금하기 위해서는 lock을 해제해야 한다.
+
+  ### 1. 이더 송금하기
+  - 특정 계좌에 가지고 있는 이더를 송금할 수 있다.
+  - `eth.sendTransaction(transactionObject)`
+  - Object 값 (value 부터는 option이며 gas, gasPrice의 경우 default 값이 있다.)
+    - `from` : 보내는 주소
+    - `to` : 받는 주소
+    - `value` : 보내는 이더 량 (단위는 wei 이며 이더로 보낼 경우 이를 변환해야 한다.)
+    - `gas` : 트랙잭션을 사용하기 위한 가스량
+    - `gasPrice` : 가스가격
+    - `data` : byte string과 관련되어 있으며 코드를 initialize 할 때 사용한다.
+    - `nonce` : 같은 nonce 에서  pending transactions 인 것을 overwrite
+  - 리턴값은 `txid` 이다
+  - 이 때, 최소 가스량은 `21,000` 임에 주의
+  - 또한 `genesis.json` 에서 chainid 가 `0` 인경우 오류가 발생하므로 수정할것 (ex>20)
+
+  ```
+  eth.sendTransaction({from: eth.accounts[0], to: eth.accounts[1], value: 100000, gas:21000, gasPrice: 1000})
+  eth.sendTransaction({from: eth.accounts[0], to: eth.accounts[1], value:web3.toWei(1,"ether")})
+
+  ```
+
+  ![](https://github.com/Lee-KyungSeok/Ethereum-Study/blob/master/BasicGeth/picture/send1.png)
+
+  ### 2. 펜딩중인 트랙잭션 확인
+  - 마이닝이 되기를 기다리는 트랜잭션들을 가져올 수 있다.
+  - `eth.pendingTransactions` : 아직 블록에 저장되지 않은 트랙잭션의 list를 보여준다.
+    - 인덱스를 지정해서 특정 펜딩 트랜잭션을 가져올 수 있다.
+
+  ```
+  eth.pendingTransactions
+  eth.pendingTransactions[0]
+  ```
+
+  ![](https://github.com/Lee-KyungSeok/Ethereum-Study/blob/master/BasicGeth/picture/send2.png)
+
+  ### 3. 특정 트랜잭션 확인
+  - Txid 를 이용해서 트랜잭션의 정보를 확인할 수 있다.
+  - 마이닝이 완료되고 나면 blockHash 와 blockNumber 에 값이 들어가게 된다.
+  - `eth.getTransaction(txid)` : 트랜잭션 정보 확인
+
+  ```
+  eth.getTransaction("0xd782107c49d8cd157a8b03c63fb839a0ae23d8e318966e7245b6283a01b7c8e7")
+  ```
+
+  ![](https://github.com/Lee-KyungSeok/Ethereum-Study/blob/master/BasicGeth/picture/send3.png)
