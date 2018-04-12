@@ -1,7 +1,8 @@
 # Basic geth
   - geth 실행하기
+  - 채굴하기
   - 계정 관리
-  - mining 실습
+  - 송금 하기
 
 ---
 ## geth 실행
@@ -30,8 +31,17 @@
   geth --datadir . --identity "Kyung" --rpc --rpcport "8080" --rpccorsdomain "*" --port "30303" --nodiscover --rpcapi "db,eth,net,web3" --networkid 1999 console
   ```
 
-  ### 2. attach 이용
-  - node 에서 geth 가 실행되고 있을 경우
+  ### 2. geth attach 실행
+  - node 에서 geth 가 실행되고 있을 경우 다른 터미널로 접속하여 json-rpc 을 이용할 수 있다.
+  - `geth attach rpc:[주소]` : rpc로 접근
+    - 아래에서는 `rpc 포트번호` 를 `8080` 으로 지정한 노드에 접근
+  - 이렇게 하면 채굴하면서 코딩하기 편한 장점 존재!!
+
+  > 예시
+
+  ```
+  geth attach rpc:8080
+  ```
 
 ---
 
@@ -50,7 +60,8 @@
   ![](https://github.com/Lee-KyungSeok/Ethereum-Study/blob/master/BasicGeth/picture/mining.png)
 
   ### 2. 마이닝 실행
-  - `miner.start()` 명령어 입력
+  - 현재 노드에서 마이닝을 실행
+  - `miner.start()` : 마이닝을 실행
     - cf> `miner.start(3)` : 마이닝 쓰레드를 3개로 지정
   - 처음 시작 하게 되면 DAG 파일을 다운받게 된다.
 
@@ -61,7 +72,8 @@
   ![](https://github.com/Lee-KyungSeok/Ethereum-Study/blob/master/BasicGeth/picture/mining2.png)
 
   ### 3. 마이닝 중지
-  - `miner.stop()` 명령어 입력
+  - 현재 진행중인 마이닝 중지
+  - `miner.stop()` : 마이닝을 중지
 
   ```
   > miner.stop()
@@ -70,7 +82,8 @@
   ![](https://github.com/Lee-KyungSeok/Ethereum-Study/blob/master/BasicGeth/picture/mining3.png)
 
   ### 4. 생성된 블록 수 조회
-  - `eth.blockNumber` 명령어 입력
+  - 현재까지 생성된 블록 번호를 리턴
+  - `eth.blockNumber` : 생성된 블록 수 조회
 
   ```
   > eth.blockNumber
@@ -79,10 +92,11 @@
   ![](https://github.com/Lee-KyungSeok/Ethereum-Study/blob/master/BasicGeth/picture/mining4.png)
 
   ### 5. 현재 채굴중인지 확인
-  - `eth.mining` 명령어 입력
+  - 현재 채굴중이라면 true, 아니라면 false를 리턴
+  - `eth.mining` : 현재 채굴중인지 확인
 
   ```
-  eth.mining
+  > eth.mining
   ```
 
   ![](https://github.com/Lee-KyungSeok/Ethereum-Study/blob/master/BasicGeth/picture/mining6.png)
@@ -100,12 +114,58 @@
 
 ## 계좌 관리
   ### 1. 새로운 계좌 생성
-  - `personal.`
+  - 이더를 송금하거나 계약을 실행할 수 있는 계좌 생성
+  - `personal.newAccount()` : 계좌를 생성
+  - cf> `geth account new` 를 이용하여 콘솔을 사용하지 않고도 말들 수 있다.
 
-  ### 2.
+  ```
+  > personal.newAccount()
+  ```
+
+  ![](https://github.com/Lee-KyungSeok/Ethereum-Study/blob/master/BasicGeth/picture/account1.png)
+
+  ### 2. 계좌 확인
+  - 현재 보유하고 있는 계좌 주소를 확인할 수 있다.
+  - `eth.accounts` or `personal.listAccounts` : 계좌 주소의 리스트를 리턴
+    - `eth.account[0]` 과 같이 index를 주어 특정 계좌 주소 리턴 가능
+
+  ```
+  > eth.accounts
+  > eth.accounts[0]
+  ```
+
+  ![](https://github.com/Lee-KyungSeok/Ethereum-Study/blob/master/BasicGeth/picture/account2.png)
+
+  ### 3. 잔고 확인
+  - 생성한 게좌의 잔고를 확인할 수 있다.
+  - `eth.getBalace(주소)`
+    - 이 때 리턴값은 wei를 리턴하며 eth 로 확인하려면 이를 변환해주어야 한다.
+    - `web3.fromWei(value)` 를 이용하여 eth로 변환가능
+
+  ```
+  eth.getBalace(eth.accounts[0])
+  web3.fromWei(eth.getBalace(eth.accounts[0]))
+  ```
+
+  ![](https://github.com/Lee-KyungSeok/Ethereum-Study/blob/master/BasicGeth/picture/account3.png)
+
+  ### 4. 계좌 lock / unlcok
+  - 송금 등을 진행 할때는 계정의 lock이 해제되어 있어야 사용 가능하다.
+  - `personal.lockAccount(주소)` : 계정을 락시킴
+  - `personal.unlockAccount(주소)` : 계정의 락을 해제
+  - `personal.listWallets[index].status` : 특정 계정의 상태를 확인할 수 있다.
+  - cf> `web3.personal.unlockAccount(주소)` 이렇게 써도 OK
+
+  ```
+  personal.lockAccount(eth.accounts[0])
+  personal.unlockAccount(eth.accounts[0])
+  personal.listWallets[0].status
+  ```
+
+  ![](https://github.com/Lee-KyungSeok/Ethereum-Study/blob/master/BasicGeth/picture/account4.png)
 
 ---
 
-## ㅇㅇ
+## 송금하기
   ### 4. eth.
   - `eth.getBalace(주소)`
