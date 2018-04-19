@@ -1,4 +1,4 @@
-# Basic Publish
+# Smart Contract Publishing
   - Smart Contract 배포하기
 
 ---
