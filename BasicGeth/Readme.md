@@ -42,7 +42,7 @@
   > 예시
 
   ```
-  geth attach http://localhost:rpc:8545
+  geth attach rpc:http://localhost:8545
   ```
 
   ### 3. geth web3 module 종류
