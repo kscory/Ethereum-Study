@@ -10,7 +10,7 @@
   - `--datadir [경로]` : 실행할 경로 지정
   - `--identity [이름]` : 내 프라이빗 노드의 아이덴티티
   - `--rpc` : RPC 인터페이스 사용 가능하도록 설정
-  - `--rpcport [포트번호]` : RPC 포트 지정 (디폴트 : 8485)
+  - `--rpcport [포트번호]` : RPC 포트 지정 (디폴트 : 8545)
   - `--rpccorsdomain [클라이언트]` : 접속 가능한 RPC 클라이언트 지정
     - 이 때 `*` 로 지정하면 모두 허용
     - 왠만하면 URL 을 지정해 주는 것이 보안상 좋다.
@@ -30,19 +30,19 @@
   > 예시
 
   ```
-  geth --datadir . --identity "Kyung" --rpc --rpcport "8080" --rpccorsdomain "*" --port "30303" --nodiscover --rpcapi "db,eth,net,web3" --networkid 1999 console
+  geth --datadir . --identity "Kyung" --rpc --rpcport "8545" --rpccorsdomain "*" --port "30303" --nodiscover --rpcapi "db,eth,net,web3" --networkid 1999 console
   ```
 
   ### 2. geth attach 실행
   - node 에서 geth 가 실행되고 있을 경우 다른 터미널로 접속하여 json-rpc 을 이용할 수 있다.
   - `geth attach rpc:[주소]` : rpc로 접근
-    - 아래에서는 `rpc 포트번호` 를 `8080` 으로 지정한 노드에 접근
+    - 아래에서는 `rpc 포트번호` 를 `8545` 으로 지정한 노드에 접근
   - 이렇게 하면 채굴하면서 코딩하기 편한 장점 존재!!
 
   > 예시
 
   ```
-  geth attach rpc:8080
+  geth attach http://localhost:rpc:8545
   ```
 
   ### 3. geth web3 module 종류
