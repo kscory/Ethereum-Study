@@ -10,18 +10,20 @@
   - `--datadir [경로]` : 실행할 경로 지정
   - `--identity [이름]` : 내 프라이빗 노드의 아이덴티티
   - `--rpc` : RPC 인터페이스 사용 가능하도록 설정
-  - `--rpcport [포트번호]` : RPC 포트 지정
+  - `--rpcport [포트번호]` : RPC 포트 지정 (디폴트 : 8485)
   - `--rpccorsdomain [클라이언트]` : 접속 가능한 RPC 클라이언트 지정
     - 이 때 `*` 로 지정하면 모두 허용
     - 왠만하면 URL 을 지정해 주는 것이 보안상 좋다.
-  - `--port "30303"` : 네트워크 Listening Port 지정 (30303 으로 지정된듯..)
+  - `--port "30303"` : 네트워크 Listening Port 지정 (디폴트 : 30303)
   - `--nodiscover` : 같은 제네시스 블록과 네트워크 ID에 있는 블록에 연결 방지
     - 이를 하지 않는 다면 P2P 노드 연결을 위해 계속해서 ping 이 발생
   - `--rpcapi [API들]` : RPC에 의해 접근을 허락할 API 지정
     - 아래의 경우 db, eth, net, web3 를 지정함
     - db,eth,net,web3,personal,admin,miner,debug,txpool 등 이용 가능
   - `--networkid [네트워크id]` : 네트워크 identifier 설정
+    - 1 = Frontier, 2 = Morden(disused), 3 = Ropsten, 4 = Rinkeby (default : 1)
   - `console` : 콘솔모드 실행
+  - `--dev` : 개발자 네트워크 접속
   - 더 많은 명령어는 [Command Line Options](https://github.com/ethereum/go-ethereum/wiki/Command-Line-Options) 참고
   - 뒤는 이제 이 console 을 실행한 후 진행!
 
@@ -42,6 +44,13 @@
   ```
   geth attach rpc:8080
   ```
+
+  ### 3. geth web3 module 종류
+  - admin : 기본적인 부분들 세팅 가능
+  - debug : 트랜잭션 디버깅 등
+  - eth : 트랜잭션 보내기, 잔고보기 등 전반적인 것
+  - miner : 마이닝 관련
+  - personal : 지갑 관련
 
 ---
 
@@ -145,6 +154,7 @@
   ```
   eth.getBalace(eth.accounts[0])
   web3.fromWei(eth.getBalace(eth.accounts[0]))
+  web3.fromWei(eth.getBalace(eth.accounts[0]), "ether")
   ```
 
   ![](https://github.com/Lee-KyungSeok/Ethereum-Study/blob/master/BasicGeth/picture/account3.png)
@@ -175,16 +185,16 @@
   - 특정 계좌에 가지고 있는 이더를 송금할 수 있다.
   - `eth.sendTransaction(transactionObject)`
   - Object 값 (value 부터는 option이며 gas, gasPrice의 경우 default 값이 있다.)
-    - `from` : 보내는 주소
-    - `to` : 받는 주소
+    - `from` : 송신자 어카운트
+    - `to` : 수신자 어카운트 (컨트랙트일 경우 존재하지 않음)
     - `value` : 보내는 이더 량 (단위는 wei 이며 이더로 보낼 경우 이를 변환해야 한다.)
-    - `gas` : 트랙잭션을 사용하기 위한 가스량
-    - `gasPrice` : 가스가격
-    - `data` : byte string과 관련되어 있으며 코드를 initialize 할 때 사용한다.
-    - `nonce` : 같은 nonce 에서  pending transactions 인 것을 overwrite
+    - `gas` : 트랙잭션을 사용하기 위한 가스량 (디폴트 : 90000)
+    - `gasPrice` : 각 가스당 지급할 가격 (디폴트 : 이후 결정됨)
+    - `data` : 컴파일된 컨트랙트 바이트 코드 혹은 호출된 메소드의 해시 서명값과 인코딩된 매개변수
+    - `nonce` : 같은 nonce 에서 pending transactions 인 것을 overwrite
   - 리턴값은 `txid` 이다
   - 이 때, 최소 가스량은 `21,000` 임에 주의
-  - 또한 `genesis.json` 에서 chainid 가 `0` 인경우 오류가 발생하므로 수정할것 (ex>20)
+  - 또한 `genesis.json` 에서 chainid 가 `0` 인경우 오류가 발생하므로 수정할것
 
   ```
   eth.sendTransaction({from: eth.accounts[0], to: eth.accounts[1], value: 100000, gas:21000, gasPrice: 1000})
@@ -196,8 +206,11 @@
 
   ### 2. 펜딩중인 트랙잭션 확인
   - 마이닝이 되기를 기다리는 트랜잭션들을 가져올 수 있다.
-  - `eth.pendingTransactions` : 아직 블록에 저장되지 않은 트랙잭션의 list를 보여준다.
+  - `eth.pendingTransactions` 혹은 `txpool.content` : 아직 블록에 저장되지 않은 트랙잭션의 list를 보여준다.
     - 인덱스를 지정해서 특정 펜딩 트랜잭션을 가져올 수 있다.
+  - `txpool.content` : 아직 블록에 담기지 못한 트랜잭션의 상세 내역 확인 가능 (거의 위와 동일)
+  - `txpool.status` : 트랜잭션의 상태 확인
+  - `txpool.inspect` : 송금한 금액과 수수료 확인 가능
 
   ```
   eth.pendingTransactions
@@ -205,6 +218,8 @@
   ```
 
   ![](https://github.com/Lee-KyungSeok/Ethereum-Study/blob/master/BasicGeth/picture/send2.png)
+
+  ![](https://github.com/Lee-KyungSeok/Ethereum-Study/blob/master/BasicGeth/picture/account5.png)
 
   ### 3. 특정 트랜잭션 확인
   - Txid 를 이용해서 트랜잭션의 정보를 확인할 수 있다.
