@@ -8,5 +8,5 @@
 ### 2. [Basic Geth](https://github.com/Lee-KyungSeok/Ethereum-Study/tree/master/BasicGeth)
 > - geth console 실행 / 마이닝 하기 / 계좌 관리 / 송금하기
 
-### 2. [Smart Contract Publishing](https://github.com/Lee-KyungSeok/Ethereum-Study/tree/master/BasicPublishing)
+### 3. [Smart Contract Publishing](https://github.com/Lee-KyungSeok/Ethereum-Study/tree/master/BasicPublishing)
 > - 스마트 컨트랙트 배포하고 실행해보기
