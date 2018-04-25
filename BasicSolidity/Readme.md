@@ -4,7 +4,7 @@
   - Solidity Type
   - keccak256
   - 형 변환
-  - mapping
+  - storage & memory
 
 ---
 ## Version Pragma & Contract
@@ -202,4 +202,41 @@
   uint8 c = a * b; // a * b가 uint8이 아닌 uint를 반환하기 때문에 에러 발생
 
   uint8 c = a * uint8(b); // b를 uint8으로 형 변환
+  ```
+
+---
+
+## storage & memory
+  ### 1. storage & memory
+  - `storage` : 블록체인 상에 영구적으로 저장되는 변수
+  - `memory` : 임시적으로 저장되는 변수로, 컨트랙트 함수에 대한 외부 호출들이 일어나는 사이에 지워짐(RAM 과 비슷)
+  - 평상시에는 거의 이용할 일이 없지만(자동으로 처리함) __구조체__ 와 __배열__ 을 처리할 때 이 키워드를 사용
+
+  > cryptoZombie 예제
+
+  ```javascript
+  contract SandwichFactory {
+    struct Sandwich {
+      string name;
+      string status;
+    }
+
+    Sandwich[] sandwiches;
+
+    function eatSandwich(uint _index) public {
+      // Sandwich mySandwich = sandwiches[_index]; // 솔리디티는 여기서 `storage`나 `memory`를 명시적으로 선언해야 한다는 경고 메시지를 발생
+
+      // `storage` 키워드를 활용
+      Sandwich storage mySandwich = sandwiches[_index];
+      // 블록체인 상에서 `sandwiches[_index]`을 영구적으로 변경
+      mySandwich.status = "Eaten!";
+
+      // `memory`를 이용 (단순히 메모리에 데이터를 복사)
+      Sandwich memory anotherSandwich = sandwiches[_index + 1];
+      // `sandwiches[_index + 1]`에는 아무런 영향을 끼치지 않는다. (임시 변수만 변경)
+      anotherSandwich.status = "Eaten!";
+      // 임시 변경한 내용을 블록체인 저장소에 저장
+      sandwiches[_index + 1] = anotherSandwich;
+    }
+  }
   ```
