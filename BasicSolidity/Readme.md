@@ -4,6 +4,7 @@
   - Solidity Type
   - keccak256
   - 형 변환
+  - mapping
 
 ---
 ## Version Pragma & Contract
@@ -155,6 +156,22 @@
 
   // Public 배열
   Person[] public people;
+  ```
+
+  ### 7. mapping
+  - 구조화된 데이터를 저장하는 또다른 방법
+  - `key-value` 저장소로, 데이터를 저장하고 검색하는데 이용
+
+  ```javascript
+  mapping (address => uint) public accountBalance; // 유저의 계좌 잔액을 보유하는 uint를 저장
+
+  mapping (uint => string) userIdToName; // 혹은 userID로 유저 이름을 저장/검색 가능하도록 매핑
+
+  function setMyBalance(uint _myBalance) public {
+    accountBalance["Ox12c..."] = _myBalance; // accountBalance 를 세팅`
+
+    // 나중에 accountBalance["Ox12c..."] 로 보유 잔액 호출 가능
+  }
   ```
 
 ---
