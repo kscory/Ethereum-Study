@@ -101,5 +101,41 @@
   ```javascript
   YourContract.IntegersAdded(function(error, result) {
       // 결과와 관련된 행동을 취함
+  })
+  ```
+
+---
+
+## msg.sender & require
+  ### 1. msg.sender
+  - 현재 함수를 호출한 사람(혹은 스마트 컨트랙트)의 주소를 가리키는 전역 변수
+  - 컨트랙트는 누군가가 항상 실행하므로 `msg.sender` 는 반드시 존재한다.
+
+  > mapping 을 이용한 예제
+
+  ```javascript
+  mapping (address => uint) favoriteNumber;
+
+  function setMyNumber(uint _myNumber) public {
+    // `msg.sender`에 대해 `_myNumber`가 저장되도록 `favoriteNumber` 매핑을 업데이트
+    favoriteNumber[msg.sender] = _myNumber;
+  }
+
+  function whatIsMyNumber() public view returns (uint) {
+    // sender의 주소에 저장된 값을 로드
+    // sender가 `setMyNumber`을 아직 호출하지 않았다면 반환값은 `0`
+    return favoriteNumber[msg.sender];
+  }
+  ```
+
+  ### 2. require
+  - 특정 조건이 참이 아닐 때 함수가 에러 메시지를 발생하고 실행을 멈춤
+
+  ```javascript
+  function sayHiToVitalik(string _name) public returns (string) {
+    // _name이 "Vitalik"인지 비교한다. 참이 아닐 경우 에러 메시지를 발생하고 함수를 벗어남
+    require(keccak256(_name) == keccak256("Vitalik"));
+    // 참이면 함수 실행
+    return "Hi!";
   }
   ```
