@@ -79,11 +79,11 @@
   변수 or 함수 | Type | 설명
   :----: | :----: | :----:
   balance | uint256 | 주소의 잔액(Wei)
-  transfer(uint256 amount) | | 주어진 주소로 amount 만큼의 Wei를 전송 (실패시 예외처리)
-  send(uint25 amount) | bool | 주어진 주소로 amount 만큼의 Wei를 전송 (실패시 false 반환, 실패 로직 구현 가능)
-  call(...) | bool | 임의의 컨트랙트에 있는 함수를 부를 때 사용 (EVM의 CALL 을 부름 => ex> `value()`, `gas()` 값 지정 가능)
+  transfer(uint256 amount) | | 주어진 주소로 amount 만큼의 Wei를 전송 </br>(실패시 예외처리)
+  send(uint25 amount) | bool | 주어진 주소로 amount 만큼의 Wei를 전송 </br>(실패시 false 반환, 실패 로직 구현 가능)
+  call(...) | bool | 임의의 컨트랙트에 있는 함수를 부를 때 사용 </br>(EVM의 CALL 을 부름 => ex> `value()`, `gas()` 값 지정 가능)
   callcode(...) | bool | EVM의 CALLCODE를 부름
-  delegatecall(...) | bool | EVM의 DELEGATECALL 을 부름 (call과 다르게 `storage` 와 `balance` 등 사용 가능하지만 `value()` 옵션 사용 불가)
+  delegatecall(...) | bool | EVM의 DELEGATECALL 을 부름 </br>(call과 다르게 `storage` 와 `balance` 등 사용 가능하지만 `value()` 옵션 사용 불가)
 
   ### 4. string
   - UTF-8 인코딩 문자열을 저장학 위한 동적 크기 배열
