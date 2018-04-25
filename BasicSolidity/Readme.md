@@ -1,4 +1,4 @@
-# Basic Solidity 1
+# Solidity Type
   - Version Pragma
   - Contract 선언
   - Solidity Type
