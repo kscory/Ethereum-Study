@@ -46,6 +46,7 @@
   - 기본(native) 데이터 타입에 함수를 붙일 때 자주 사용
   - 내부에 정의된 함수를 바로 사용할 수 있다.
   - `using` 을 통해 라이브러리를 사용한다 명시
+    - 이 때 `for` 을 이용한 다음 수는 (ex> uint256) 첫 번째 인수로 자동으로 전달된다.
 
   > 라이브러리 예시 (safemath.sol 이라 가정)
 
@@ -67,6 +68,7 @@
   ```javascript
   import "./safemath.sol";
 
+  // uint256 은 자동으로 전달되어 아래의 a.mul(b) 에서 mul 함수의 첫번째 인자에 a를 전달할 수 있다.
   using SafeMath for uint256;
 
   uint256 a = 5;
