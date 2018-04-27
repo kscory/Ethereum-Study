@@ -22,7 +22,7 @@
   - 함수의 가시성 종류
     - `public` : 모든 곳에서 호출 가능하며 어카운트에 대한 제한도 없다. </br>호출에 사용된 매개변수가 항상 메모리에 기록되기 때문에 가스가 많이 소모될 수 있다.
     - `private` : 함수를 선언한 컨트랙트에서만 호출 가능
-    - `external` : 외부소유어카운트에서만 호출 가능, 호출에 사용된 매개변수들은 calldata 영역에 기록
+    - `external` : 외부소유어카운트에서만 호출 가능, 호출에 사용된 매개변수들은 calldata 영역에 기록 (인터페이스 사용시 많이 이용됨)
     - `internal` : 함수를 선언한 컨트랙트 및 상속받은 컨트랙트에서만 호출 가능
   - tip> 기본적으로는 `private` 으로 선언하고, 공개할 함수만 `public` 으로 선언하도록 한다.
 
@@ -37,12 +37,55 @@
   ### 3. 함수의 반환값
   - `returns` 를 선언하여 반환값 종류를 선언
   - 함수 내부에 `return` 을 활용하여 특정 값을 반환
+  - 솔리디티에서는 여러가지 값을 리턴할 수도 있다. (ex> 크립토 키티의 `getKitty` )
+    - 이 경우 `(a,b,c) = 여러리턴함수();` 와 같이 값을 가져올 수 있다.
+    - 원하는 값만 가져오고 싶은 경우 `(,,c) = 여러리턴함수();` 와 같이 가져올 수 있다.
+
+  > return 값이 한개인 경우
 
   ```javascript
   contract Greeter {
       function createInfo(string _name, uint _age, string _phone) public returns(string) {
           return "Success";
       }
+  }
+  ```
+
+  > return 값이 여러개인 경우 (크립토키티의 getKitty_ 일단 public으로 바꿔놈(원래는 external))
+
+  ```javascript
+  function getKitty(uint256 _id) public view returns (
+      bool isGestating,
+      bool isReady,
+      uint256 cooldownIndex,
+      uint256 nextActionAt,
+      uint256 siringWithId,
+      uint256 birthTime,
+      uint256 matronId,
+      uint256 sireId,
+      uint256 generation,
+      uint256 genes
+  ) {
+      Kitty storage kit = kitties[_id];
+
+      // if this variable is 0 then it's not gestating
+      isGestating = (kit.siringWithId != 0);
+      isReady = (kit.cooldownEndBlock <= block.number);
+      cooldownIndex = uint256(kit.cooldownIndex);
+      nextActionAt = uint256(kit.cooldownEndBlock);
+      siringWithId = uint256(kit.siringWithId);
+      birthTime = uint256(kit.birthTime);
+      matronId = uint256(kit.matronId);
+      sireId = uint256(kit.sireId);
+      generation = uint256(kit.generation);
+      genes = kit.genes;
+  }
+
+  // 값을 가져올 때
+  function process() external {
+    uint kittyGenes;
+    uint kittyBirth;
+    (,,,,,kittyBirth,,,,kittyGenes) = getKitty(주소);
   }
   ```
 
