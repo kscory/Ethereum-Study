@@ -15,15 +15,15 @@
 
   ```javascript
   contract Doge {
-    function catchphrase() public returns (string) {
-      return "So Wow CryptoDoge";
-    }
+      function catchphrase() public returns (string) {
+          return "So Wow CryptoDoge";
+      }
   }
 
   contract BabyDoge is Doge {
-    function anotherCatchphrase() public returns (string) {
-      return "Such Moon BabyDoge";
-    }
+      function anotherCatchphrase() public returns (string) {
+          return "Such Moon BabyDoge";
+      }
   }
   ```
 
@@ -57,15 +57,15 @@
 
   ```java
   contract LuckyNumber {
-    mapping(address => uint) numbers;
+      mapping(address => uint) numbers;
 
-    function setNum(uint _num) public {
-      numbers[msg.sender] = _num;
-    }
+      function setNum(uint _num) public {
+          numbers[msg.sender] = _num;
+      }
 
-    function getNum(address _myAddress) public view returns (uint) {
-      return numbers[_myAddress];
-    }
+      function getNum(address _myAddress) public view returns (uint) {
+          return numbers[_myAddress];
+      }
   }
   ```
 
@@ -74,28 +74,28 @@
   ```java
   // 인터페이스 컨트랙트 작성
   contract NumberInterface {
-    // 몸체를 제외한 함수 인터페이스 작성
-    function getNum(address _myAddress) public view returns (uint);
+      // 몸체를 제외한 함수 인터페이스 작성
+      function getNum(address _myAddress) public view returns (uint);
   }
   ```
 
   ### 3. interface 사용
   - 사용할 컨트랙트의 주소를 가져옴 (이더리움 상의 주소)
-  - 만든 interface 에 주소를 연결 (이 작업을 수행하면 원하는 컨트랙트를 가리키게 된다.)
+  - 만든 interface Contract 에 주소를 연결 (이 작업을 수행하면 원하는 컨트랙트를 가리키게 된다.)
   - 함수를 이용
 
   > 2번에서 선언한 interface를 이용
 
   ```javascript
   contract MyContract {
-    // 사용할 컨트랙트의 주소를 가져옴
-    address NumberInterfaceAddress = 0xab38...
-    // 만든 interface 에 주소를 연결
-    NumberInterface numberContract = NumberInterface(NumberInterfaceAddress)
+      // 사용할 컨트랙트의 주소를 가져옴
+      address NumberInterfaceAddress = 0xab38...
+      // 만든 interface Contract 에 주소를 연결
+      NumberInterface numberContract = NumberInterface(NumberInterfaceAddress)
 
-    function someFunction() public {
-      // 정의된 함수를 이용
-      uint num = numberContract.getNum(msg.sender);
-    }
+      function someFunction() public {
+          // 정의된 함수를 이용
+          uint num = numberContract.getNum(msg.sender);
+      }
   }
   ```
