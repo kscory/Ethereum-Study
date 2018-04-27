@@ -12,10 +12,13 @@
 > - 스마트 컨트랙트 배포하고 실행해보기
 
 ### 4. [Basic Web3](https://github.com/Lee-KyungSeok/Ethereum-Study/tree/master/BasicWeb3)
-> - 진행중...
+> - 진행중...(버전체크중..because of window)
 
-### 5. [Solidity Type](https://github.com/Lee-KyungSeok/Ethereum-Study/tree/master/BasicSolidity)
-> Version Pragma / Contract 선언 / Solidity Type / keccak256 / 형 변환
+### 5. [Solidity : Type](https://github.com/Lee-KyungSeok/Ethereum-Study/tree/master/BasicSolidity)
+> Version Pragma / Solidity Type(mapping 포함) / keccak256 / storage & memory / 형 변환 /
 
-### 6. [Solidity Function & Event](https://github.com/Lee-KyungSeok/Ethereum-Study/tree/master/BasicSolidity2)
-> - function / event
+### 6. [Solidity : Function & Event & require / assert & msg ](https://github.com/Lee-KyungSeok/Ethereum-Study/tree/master/BasicSolidity2)
+> - function / event / require / msg 객체
+
+### 7. [Solidity : Inheritance & import & library & interface](https://github.com/Lee-KyungSeok/Ethereum-Study/tree/master/Inheritance)
+> - inheritance / import / library / interface
