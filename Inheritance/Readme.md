@@ -1,12 +1,12 @@
-# Solidity : Inheritance & import & interface
+# Solidity : Inheritance & import & interface & library
   - Inheritance
   - import
+  - library
   - interface
-  - 다른 컨트랙트 이용하기
 
 ---
 
-## Inheritance & import
+## Inheritance & import & library
   ### 1. Inheritance
   - 솔리디티에서 컨트랙트의 상속을 지원하며 `is` 의 형태로 지원한다.
   - 참고> 하나의 긴 로직을 만드는 것보다 여러 로직으로 나누어 관리하는게 편할 때 상속을 이용한다.(어느 언어나 동일)
@@ -39,6 +39,38 @@
   contract PuddleContract is DogContract {
 
   }
+  ```
+
+  ### 3. library
+  - 라입러리란 솔리디티에서 특별한 종류의 컨트랙트
+  - 기본(native) 데이터 타입에 함수를 붙일 때 자주 사용
+  - 내부에 정의된 함수를 바로 사용할 수 있다.
+  - `using` 을 통해 라이브러리를 사용한다 명시
+
+  > 라이브러리 예시 (safemath.sol 이라 가정)
+
+  ```javascript
+  library SafeMath {
+    function mul(uint256 a, uint256 b) internal pure returns (uint256) {
+      if (a == 0) {
+        return 0;
+      }
+      uint256 c = a * b;
+      assert(c / a == b);
+      return c;
+    }
+  }
+  ```
+
+  > 라이브러리 사용
+
+  ```javascript
+  import "./safemath.sol";
+
+  using SafeMath for uint256;
+
+  uint256 a = 5;
+  uint256 c = a.mul(2); // 5 * 2 = 10
   ```
 
 ---
@@ -99,3 +131,4 @@
       }
   }
   ```
+---
