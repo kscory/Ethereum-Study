@@ -122,7 +122,7 @@
 
 ---
 
-## Event & require
+## Event & require / assert
   ### 1. Event
   - 컨트랙트가 블록체인 상에서 앱의 사용자 단에서 무언가 액션이 발생했을 때 의사소통하는 방법
   - 특정 이벤트가 일어나는지 "귀를 기울이고" 그 이벤트가 발생하면 행동을 취함
@@ -147,8 +147,12 @@
   })
   ```
 
-  ### 2. require
-  - 특정 조건이 참이 아닐 때 함수가 에러 메시지를 발생하고 실행을 멈춤
+  ### 2. require & assert
+  - __공통점__ : 특정 조건이 참이 아닐 때 함수가 에러 메시지를 발생하고 실행을 멈춤
+  - __차이__
+    - `require` : 함수 실행이 실패하면 남은 가스를 사용자에게 되돌려줌
+    - `assert` : 함수 실행이 실패해도 남은 가스를 되돌려주지 않음
+  - 일반적으로 require을 사용하고 assert는 코드가 심각하게 잘못 실행될 때 주로 사용
 
   ```javascript
   function sayHiToVitalik(string _name) public returns (string) {
