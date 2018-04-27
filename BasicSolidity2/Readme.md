@@ -79,7 +79,7 @@
 
 ---
 
-## Event
+## Event & require
   ### 1. Event
   - 컨트랙트가 블록체인 상에서 앱의 사용자 단에서 무언가 액션이 발생했을 때 의사소통하는 방법
   - 특정 이벤트가 일어나는지 "귀를 기울이고" 그 이벤트가 발생하면 행동을 취함
@@ -104,9 +104,21 @@
   })
   ```
 
+  ### 2. require
+  - 특정 조건이 참이 아닐 때 함수가 에러 메시지를 발생하고 실행을 멈춤
+
+  ```javascript
+  function sayHiToVitalik(string _name) public returns (string) {
+    // _name이 "Vitalik"인지 비교한다. 참이 아닐 경우 에러 메시지를 발생하고 함수를 벗어남
+    require(keccak256(_name) == keccak256("Vitalik"));
+    // 참이면 함수 실행
+    return "Hi!";
+  }
+  ```
+
 ---
 
-## msg.sender & require
+## msg property
   ### 1. msg.sender
   - 현재 함수를 호출한 사람(혹은 스마트 컨트랙트)의 주소를 가리키는 전역 변수
   - 컨트랙트는 누군가가 항상 실행하므로 `msg.sender` 는 반드시 존재한다.
@@ -128,14 +140,9 @@
   }
   ```
 
-  ### 2. require
-  - 특정 조건이 참이 아닐 때 함수가 에러 메시지를 발생하고 실행을 멈춤
-
-  ```javascript
-  function sayHiToVitalik(string _name) public returns (string) {
-    // _name이 "Vitalik"인지 비교한다. 참이 아닐 경우 에러 메시지를 발생하고 함수를 벗어남
-    require(keccak256(_name) == keccak256("Vitalik"));
-    // 참이면 함수 실행
-    return "Hi!";
-  }
-  ```
+  ### 2. 그 외 msg 객체
+  - `msg.value` : 계약주소로 보낸 이더량
+  - `msg.data` : 호출 데이터
+  - `msg.gas` : gas limit 에서 함수를 호출하고 남은 가스량
+  - 위에서 만든 것처럼 `msg.xxx` 의 형태로 메세지 프로퍼티를 가져올 수 있다.
+  - 이는 Web 혹은 다른곳에서 컨트랙트로 transaction을 생성할때 만들어지는 것과 동일!!
